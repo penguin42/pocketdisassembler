@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android1="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tdscroller"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/tdlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tdtext"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:inputType="none|textMultiLine"
+            android:minLines="10"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:text="TextView" >
+
+            <requestFocus />
+        </TextView>
+  
+        <Button
+        android:id="@+id/tdclose"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minLines="1"
+        android:text="@android:string/ok" />
+            
+  </LinearLayout>
+
+
+</ScrollView>

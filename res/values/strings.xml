@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PocketDisassembler</string>
+    <string name="assemblelabel">Assemble</string>
+    <string name="disassemblelabel">Disassemble</string>
+    <string name="hexlabel">Hex:</string>
+    <string name="assemblylabel">Asm:</string>
+    <string name="asmhint">abc blah[blah]</string>
+    <string name="hexhint">1c ed ac 1d dead beef</string>
+    <string name="quit">Quit</string>
+    <string name="license">License</string>
+    <string name="about">About</string>
+    <style name="fixedwidth"></style>
+    <string name="keydel">Del</string>        
+</resources>

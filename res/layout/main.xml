@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toplevellinear"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/toplevelbinutils"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:id="@+id/archhoriz"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Spinner
+                android:id="@+id/archspinner"
+                style="@android:style/Widget.TextView.SpinnerItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <!-- Preview: listitem=@android:layout/simple_spinner_item -->
+            </Spinner>
+
+            <Spinner
+                android:id="@+id/subarchspinner"
+                style="@android:style/Widget.TextView.SpinnerItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/optionslayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <GridView
+                android:id="@+id/optionsGrid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:numColumns="3" >
+            </GridView>
+
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/entriestable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:shrinkColumns="1"
+            android:stretchColumns="1" >
+
+            <TableRow
+                android:id="@+id/hexrow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/labelHex"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="@string/hexlabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/entryHex"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hexhint"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:singleLine="false"
+                    android:typeface="monospace" />
+
+            </TableRow>
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/hexkey0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+
+                    <Button
+                        android:id="@+id/hexkey1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1" />
+
+                    <Button
+                        android:id="@+id/hexkey2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2" />
+
+                    <Button
+                        android:id="@+id/hexkey3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3" />
+
+                    <Button
+                        android:id="@+id/hexkey4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4" />
+
+                    <Button
+                        android:id="@+id/hexkey5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5" />
+
+                    <Button
+                        android:id="@+id/hexkey6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6" />
+
+                    <Button
+                        android:id="@+id/hexkey7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7" />
+
+                    <Button
+                        android:id="@+id/hexkeydel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/keydel" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/hexkey8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8" />
+
+                    <Button
+                        android:id="@+id/hexkey9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9" />
+
+                    <Button
+                        android:id="@+id/hexkeya"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="a" />
+
+                    <Button
+                        android:id="@+id/hexkeyb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="b" />
+
+                    <Button
+                        android:id="@+id/hexkeyc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="c" />
+
+                    <Button
+                        android:id="@+id/hexkeyd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="d" />
+
+                    <Button
+                        android:id="@+id/hexkeye"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="e" />
+
+                    <Button
+                        android:id="@+id/hexkeyf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="f" />
+
+                    <Button
+                        android:id="@+id/hexkeyspace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" " />
+
+                </TableRow>
+
+            </TableLayout>
+
+            <TableRow
+                android:id="@+id/asmrow"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/labelAsm"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/assemblylabel"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/entryAsm"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autoText="false"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:singleLine="false"
+                    android:text="@string/asmhint"
+                    android:typeface="monospace" >
+
+                    <requestFocus />
+                </EditText>
+            </TableRow>
+        </TableLayout>
+
+        <LinearLayout
+            android:id="@+id/actionlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:baselineAligned="true" >
+
+            <Button
+                android:id="@+id/godisassemble"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/disassemblelabel" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
