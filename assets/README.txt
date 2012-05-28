@@ -44,8 +44,6 @@ just mail me at dave@treblig.org   - see the TODO list below though.
      Need to get subarchs to work
        mips:ia6r2 not happy
 
-  Merge subArchOptions into subArchDef and remove the index's and turn them into references
-
   Allow cr in input
   Icon
   Custom keyboard
@@ -54,21 +52,28 @@ just mail me at dave@treblig.org   - see the TODO list below though.
        defines it's own keyboard but also has an XML description
 
 10) Building
-To build the jni glue run    ndk-build (from wherever your ndk installation is) at the top level.
+
+  a) To build binutils:
+   You need to do a binutils build/install 1st - the jni build needs the headers
+
+     export NDKTCPATH=/discs/more/android/dev/ndk-toolchain-r8-arm   # or whereever you put it
+     export PATH=$PATH:$NDKTCPATH/bin
+     CC=$NDKTCPATH/bin/arm-linux-androideabi-gcc CXX=$NDKTCPATH/bin/arm-linux-androideabi-g++ ../binutils-2.22/configure --prefix=$PWD/../result --host=arm-linux-androideabi --enable-targets=alpha-unknown-linux-elf,arm-linux-gnueabi,hppa-linux-elf,i686-linux-gnueabi,ia64-linux-elf,m68-linux-elf,mips-linux-elf,ppc-linux-gnueabi,s390-linux-gnueabi,sparc-linux-elf --enable-shared --disable-nls
+     # Now you want to be in pocketdisassembler/binutils/build
+     make -j 8
+     make install
+     # and you should find you have a set of binaries in binutils/result
+
+  b) To build the jni glue
+     At the top level of this tree run:
+     ndk-build   (having added the NDK to your path - note this is the ndk, not the ndk toolchain!)
 Note that this nukes any builds you have of the binutils, so you have to copy that back into
 the libs directory (see below).
+     # Now you should have libs/armeabi/libbinutilsglue.so
 
-To build binutils:
-
-export PATH=$PATH:/discs/more/android/dev/ndk-toolchain-r8-arm/bin
-CC=/discs/more/android/dev/ndk-toolchain-r8-arm/bin/arm-linux-androideabi-gcc CXX=/discs/more/android/dev/ndk-toolchain-r8-arm/bin/arm-linux-androideabi-g++ ../binutils-2.22/configure --prefix=/home/dg/workspace/PocketDisassembler/binutils/result --host=arm-linux-androideabi --enable-targets=alpha-unknown-linux-elf,arm-linux-gnueabi,hppa-linux-elf,i686-linux-gnueabi,ia64-linux-elf,m68-linux-elf,mips-linux-elf,ppc-linux-gnueabi,s390-linux-gnueabi,sparc-linux-elf --enable-shared --disable-nls
-make -j 8
-
-
-cp binutils/build/opcodes/.libs/libopcodes-2.22.so libs/armeabi/
-cp binutils/build/bfd/.libs/libbfd-2.22.so libs/armeabi/
-
-so workspace/PocketDisassembler/libs/armeabi/libopcodes-2.22.so
+  c) Copy the binutils binaries in
+   cp binutils/result/lib/libopcodes-2.22.so libs/armeabi/
+   cp binutils/result/lib/libbfd-2.22.so libs/armeabi/
 
 patch to libiberty/getpagesize.c - don't define on android
                    setproctitle - change to prctl (PR_SET_NAME, (unsigned long)name, 0, 0, 0);
