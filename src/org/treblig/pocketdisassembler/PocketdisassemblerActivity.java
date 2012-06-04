@@ -76,15 +76,18 @@ public class PocketdisassemblerActivity extends Activity {
 		  new SubarchDef("octeon", "mips:octeon", bigEndianOptSetForceTrue), new SubarchDef("loongson_3a", "mips:loongson_3a", null)
     };
 
-    private SubarchOption[] ppcAltivecOpts = {
-    		new SubarchOption( "altivec",   true, false, "altivec",   "", 0), bigEndianOptSetForceTrue[0]
+    private SubarchOption[] ppc64Opts = {
+    		new SubarchOption( "64",   true, false, "64",   "", 0), bigEndianOptSetForceTrue[0]
+    };
+    private SubarchOption[] ppc32Opts = {
+    		new SubarchOption( "32",   true, false, "32",   "", 0), bigEndianOptSetForceTrue[0]
     };
     
     private SubarchDef[] ppcSubarchArray = {
-		  // FIXME PPC doesn't like subarch name, it prefers everything via -M
-		  new SubarchDef("ppc", "", bigEndianOptSetForceTrue), new SubarchDef("ppc32", "", bigEndianOptSetForceTrue),
-		  new SubarchDef("ppc64", "", bigEndianOptSetForceTrue), new SubarchDef("power7", "", bigEndianOptSetForceTrue),
-		  new SubarchDef("altivec", "", ppcAltivecOpts)
+		  // Note: PPC doesn't like subarch name, it prefers everything via -M and it
+    	  // seems to want subarch always to be powerpc
+		  new SubarchDef("ppc32", "powerpc", ppc32Opts),
+		  new SubarchDef("ppc64", "powerpc", ppc64Opts)
     };
 		  
     private SubarchOption[] s390zarchOpts = {
