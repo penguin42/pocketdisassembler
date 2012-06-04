@@ -43,7 +43,7 @@ public class PocketdisassemblerActivity extends Activity {
     };
     
     // ----------------------------------
-    // Definitions for each architecture
+    // Definitions for each architecture   TODO split this out into a separate file
     // ----------------------------------
     private SubarchDef[] alphaSubarchArray = {
     		new SubarchDef("alpha", "alpha", null),     new SubarchDef("ev6", "alpha:ev6", null)
@@ -101,6 +101,10 @@ public class PocketdisassemblerActivity extends Activity {
 		  new SubarchDef("31-bit", "s390:31-bit", s390esaOpts)
     };
 	
+	private SubarchDef[] sparcSubarchArray = {
+	     new SubarchDef("v9b", "sparc:v9b", bigEndianOptSetForceTrue)
+	};
+	
 	private SubarchOption[] x86Opt32bit = {
 			new SubarchOption( "i386",   true, false, "i386",   "", 0)
 	};
@@ -118,6 +122,7 @@ public class PocketdisassemblerActivity extends Activity {
     	new ArchDef("mips", "mips", mipsSubarchArray),
     	new ArchDef("ppc", "ppc", ppcSubarchArray),
     	new ArchDef("s390", "s390", s390SubarchArray),
+    	new ArchDef("sparc", "sparc", sparcSubarchArray),
     	new ArchDef("x86", "x86", x86SubarchArray)
     };
     
@@ -296,7 +301,7 @@ public class PocketdisassemblerActivity extends Activity {
       
     }
     // --------------------------------------------------------------------------------------    
-    // Called when the user clicmble
+    // Called when the user clicks disassemble
     private OnClickListener mDoDisassembleListener = new OnClickListener() {
         public void onClick(View v) {
         	CharSequence hexText;
