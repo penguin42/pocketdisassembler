@@ -21,6 +21,14 @@ public class SubArchOptViewAdapter extends BaseAdapter {
         mContext = c;
         mOptions = options;
         
+        if (options == null) {
+        	visOptionMap = null;
+        	revOptionMap = null;
+        	buttons = null;
+        	nVisOptions = 0;
+        	return;
+        }
+        
         // 1st pass - how many visible options do we have
         nVisOptions = 0;
         for(int i=0; i<options.length;i++) {

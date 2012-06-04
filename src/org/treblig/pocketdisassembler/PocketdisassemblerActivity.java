@@ -35,113 +35,91 @@ public class PocketdisassemblerActivity extends Activity {
     private SubArchOptViewAdapter mArchVA; // Adapter that holds the option buttons
     private BinUtilsGlue bug;
     
-    private SubarchDef[] alphaSubarchArray = {
-    		new SubarchDef("alpha", "alpha"),     new SubarchDef("ev6", "alpha:ev6")
+    private SubarchOption[] bigEndianOptSetDefTrue = {
+    		new SubarchOption( "Big Endian", true, true, "", "", SubarchOption.FlagBigEndian)
     };
+    private SubarchOption[] bigEndianOptSetForceTrue = {
+    		new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian)
+    };
+    
+    // ----------------------------------
+    // Definitions for each architecture
+    // ----------------------------------
+    private SubarchDef[] alphaSubarchArray = {
+    		new SubarchDef("alpha", "alpha", null),     new SubarchDef("ev6", "alpha:ev6", null)
+    };
+    // ARM option set for subarchs with visible thumb option, off by default
+    private SubarchOption[] armoptThumbDefOffVisible = {
+    		new SubarchOption( "thumb", false, true, "force-thumb", "no-force-thumb", 0)
+    };
+    // ARM option set for subarchs with visible thumb option, on by default
+    private SubarchOption[] armoptThumbDefOnVisible = {
+    		new SubarchOption( "thumb", true, true, "force-thumb", "no-force-thumb", 0)
+    };
+    
     private SubarchDef[] armSubarchArray = {
-          new SubarchDef("arm", "arm"),         new SubarchDef("armv3m","armv3m"), 
-  		  new SubarchDef("armv4","armv4"),      new SubarchDef("armv4t","armv4t"),
-  		  new SubarchDef("armv5te", "armv5te"), new SubarchDef("xscale", "xscale"),
-  		  new SubarchDef("ep9312", "ep9312"),   new SubarchDef("iwmmxt2", "iwmmxt2")
+          new SubarchDef("arm", "arm", armoptThumbDefOffVisible),
+          new SubarchDef("armv3m","armv3m", null), new SubarchDef("armv4","armv4", null),
+          new SubarchDef("armv4t","armv4t", armoptThumbDefOnVisible),
+  		  new SubarchDef("armv5te", "armv5te", armoptThumbDefOnVisible), new SubarchDef("xscale", "xscale", null),
+  		  new SubarchDef("ep9312", "ep9312", armoptThumbDefOffVisible),   new SubarchDef("iwmmxt2", "iwmmxt2", armoptThumbDefOnVisible)
     };
     
     private SubarchDef[] hppaSubarchArray = {
-          new SubarchDef("hppa2.0w", "hppa2.0w"), new SubarchDef("hppa2.0", "hppa2.0"),
-		  new SubarchDef("hppa1.0",  "hppa1.0")
+          new SubarchDef("hppa2.0w", "hppa2.0w", null), new SubarchDef("hppa2.0", "hppa2.0", null),
+		  new SubarchDef("hppa1.0",  "hppa1.0", null)
     };
 
     private SubarchDef[] mipsSubarchArray = {	  
-		  new SubarchDef("mips", "mips"),       new SubarchDef("4400", "4400"),
-		  new SubarchDef("isa32r2", "isa32r2"), new SubarchDef("ia6r2", "mips:ia6r2"), 
-		  new SubarchDef("octeon", "mips:octeon"), new SubarchDef("loongson_3a", "mips:loongson_3a")
+		  new SubarchDef("mips", "mips", bigEndianOptSetDefTrue),       new SubarchDef("4400", "4400", bigEndianOptSetDefTrue),
+		  new SubarchDef("isa32r2", "isa32r2", bigEndianOptSetDefTrue), new SubarchDef("ia6r2", "mips:ia6r2", bigEndianOptSetDefTrue), 
+		  new SubarchDef("octeon", "mips:octeon", bigEndianOptSetForceTrue), new SubarchDef("loongson_3a", "mips:loongson_3a", null)
     };
 
+    private SubarchOption[] ppcAltivecOpts = {
+    		new SubarchOption( "altivec",   true, false, "altivec",   "", 0), bigEndianOptSetForceTrue[0]
+    };
+    
     private SubarchDef[] ppcSubarchArray = {
-		  // PPC doesn't like subarch name, it prefers everything via -M
-		  new SubarchDef("ppc", ""), new SubarchDef("ppc32", ""),
-		  new SubarchDef("ppc64", ""), new SubarchDef("power7", ""),
-		  new SubarchDef("altivec", "")
+		  // FIXME PPC doesn't like subarch name, it prefers everything via -M
+		  new SubarchDef("ppc", "", bigEndianOptSetForceTrue), new SubarchDef("ppc32", "", bigEndianOptSetForceTrue),
+		  new SubarchDef("ppc64", "", bigEndianOptSetForceTrue), new SubarchDef("power7", "", bigEndianOptSetForceTrue),
+		  new SubarchDef("altivec", "", ppcAltivecOpts)
     };
 		  
-	private SubarchDef[] s390SubarchArray =	 {
-		  new SubarchDef("64-bit", "s390:64-bit"), new SubarchDef("31-bit", "s390:31-bit")
+    private SubarchOption[] s390zarchOpts = {
+    		new SubarchOption( "zarch", true, false, "zarch", "", 0), bigEndianOptSetForceTrue[0]
     };
-		
+    private SubarchOption[] s390esaOpts = {
+    		new SubarchOption( "esa",   true, false, "esa",   "", 0), bigEndianOptSetForceTrue[0]
+    };
+	private SubarchDef[] s390SubarchArray =	 {
+		  new SubarchDef("64-bit", "s390:64-bit", s390zarchOpts), 
+		  new SubarchDef("31-bit", "s390:31-bit", s390esaOpts)
+    };
+	
+	private SubarchOption[] x86Opt32bit = {
+			new SubarchOption( "i386",   true, false, "i386",   "", 0)
+	};
+	private SubarchOption[] x86Opt64bit = {
+			new SubarchOption( "x86-64", true, false, "x86-64", "", 0)
+	};
 	private SubarchDef[] x86SubarchArray = {
-          new SubarchDef("x86-64", "i386:x86-64"), new SubarchDef("i386", "i386")
+          new SubarchDef("x86-64", "i386:x86-64", x86Opt64bit), new SubarchDef("i386", "i386", x86Opt32bit)
 	};
     
-    private ArchDef[] newArchArray = {
+    private ArchDef[] archArray = {
     	new ArchDef("alpha", "alpha", alphaSubarchArray),
     	new ArchDef("arm", "arm", armSubarchArray),
     	new ArchDef("hppa", "hppa", hppaSubarchArray),
     	new ArchDef("mips", "mips", mipsSubarchArray),
-    	new ArchDef("powerpc", "powerpc", ppcSubarchArray),
+    	new ArchDef("ppc", "ppc", ppcSubarchArray),
     	new ArchDef("s390", "s390", s390SubarchArray),
     	new ArchDef("x86", "x86", x86SubarchArray)
     };
     
-    // FIXME: Glue this into subarchDef
-    private SubarchOption[][][] saOptions = {
-    		// Alpha
-    		{
-    		    { },
-    		    { },
-    		},
-    		// ARM
-    		{
-    			{ new SubarchOption( "thumb", false, true, "force-thumb", "no-force-thumb", 0) }, /* arm */
-    			{ }, /* armv3m */
-    			{ }, /* armv4 */
-    			{ new SubarchOption( "thumb", true, true, "force-thumb", "no-force-thumb", 0 ) }, /* armv4t */
-    			{ new SubarchOption( "thumb", true, true, "force-thumb", "no-force-thumb", 0 ) }, /* armv5te */
-    			{ }, /* xscale */
-    			{ new SubarchOption( "thumb", false, true, "force-thumb", "no-force-thumb", 0 ) }, /* ep9312 */
-    			{ new SubarchOption( "thumb", true, true, "force-thumb", "no-force-thumb", 0 ) }, /* iwmmxt2 */
-    		},
-    		// HP-PA
-    		{
-    			{ },
-    			{ },
-    			{ },
-    		},
-    		
-    		// MIPS
-    		{
-    			{ new SubarchOption( "Big Endian", true, true, "", "", SubarchOption.FlagBigEndian) }, // mips
-    			{ new SubarchOption( "Big Endian", true, true, "", "", SubarchOption.FlagBigEndian) }, // r4400
-    			{ new SubarchOption( "Big Endian", true, true, "", "", SubarchOption.FlagBigEndian) }, // mips32r2
-    			{ new SubarchOption( "Big Endian", true, true, "", "", SubarchOption.FlagBigEndian) }, // mips64r2
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // octeon
-    			{ }, // longson3a
-    		},
-    		
-    		// PPC
-    		{
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // ppc
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // ppc32
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // ppc64
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // power7
-    			{ new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian) }, // altivec
-    		},
-    		
-    		// s390
-    		{
-    			{ new SubarchOption( "zarch", true, false, "zarch", "", 0), 
-    			  new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian)
-    			}, /* zarch/64 */
-    			{ new SubarchOption( "esa",   true, false, "esa",   "", 0),
-    			  new SubarchOption( "", true, false, "", "", SubarchOption.FlagBigEndian)
-    			}, /* esa/31 */
-    		},
-    		// x86
-    		{
-    			{ new SubarchOption( "x86-64", true, false, "x86-64", "", 0) }, /* i386:x86-64 */
-    			{ new SubarchOption( "i386",   true, false, "i386",   "", 0) }, /* i386 */
-    		}
-    };
-
-    private int selectedArchIndex = 0, selectedSubArchIndex = 0;
+    private ArchDef selectedArch = archArray[0];
+    private SubarchDef selectedSubarch = selectedArch.subDefs[0];
     
     // Parse a string of hex numbers, they are space separated chunks, each chunk being hex
     // digits; each chunk is decoded and appended to the result array.  Within a chunk, if the
@@ -265,14 +243,14 @@ public class PocketdisassemblerActivity extends Activity {
     private void updateOptionList() {
     	GridView gv = (GridView) findViewById(R.id.optionsGrid);
     	
-    	mArchVA = new SubArchOptViewAdapter(mContext, saOptions[selectedArchIndex][selectedSubArchIndex]);
+    	mArchVA = new SubArchOptViewAdapter(mContext, selectedSubarch.opts);
     	gv.setAdapter(mArchVA);
     }
     
     // --------------------------------------------------------------------------------------
     private String buildOptionString() {
       String result="";
-      SubarchOption curOptions[]=saOptions[selectedArchIndex][selectedSubArchIndex];
+      SubarchOption curOptions[]=selectedSubarch.opts;
       
       if (curOptions != null) {
           for (int i=0;i<curOptions.length; i++) {
@@ -297,7 +275,7 @@ public class PocketdisassemblerActivity extends Activity {
     
     private int buildOptionFlags() {
       int result=0;
-      SubarchOption curOptions[]=saOptions[selectedArchIndex][selectedSubArchIndex];
+      SubarchOption curOptions[]=selectedSubarch.opts;
       
       if (curOptions != null) {
           for (int i=0;i<curOptions.length; i++) {
@@ -315,7 +293,7 @@ public class PocketdisassemblerActivity extends Activity {
       
     }
     // --------------------------------------------------------------------------------------    
-    // Called when the user clicks disassemble
+    // Called when the user clicmble
     private OnClickListener mDoDisassembleListener = new OnClickListener() {
         public void onClick(View v) {
         	CharSequence hexText;
@@ -332,8 +310,7 @@ public class PocketdisassemblerActivity extends Activity {
         	bytes = parseHexString(hexText.toString(), errString, (flags & SubarchOption.FlagBigEndian)!=0);
       	    
         	if (errString[0] == "") {
-        		result = bug.doDisassemble(newArchArray[selectedArchIndex].nameToDiss,
-        				newArchArray[selectedArchIndex].subDefs[selectedSubArchIndex].nameToDiss,
+        		result = bug.doDisassemble(selectedArch.nameToDiss, selectedSubarch.nameToDiss,
           			  buildOptionString(), flags, bytes);
         	} else {
         		result = errString[0];
@@ -345,10 +322,10 @@ public class PocketdisassemblerActivity extends Activity {
     // For when the user changes the arch selection
     private OnItemSelectedListener mArchSpinnerListener = new OnItemSelectedListener() {
       public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        selectedArchIndex = pos;
+        selectedArch = archArray[pos];
         
-        selectedSubArchIndex = 0; // Somehow kick the spinner to enforce that?
-        mSubArchSpinner.setAdapter(new SubArchListAdapter(mContext, newArchArray[pos].subDefs));
+        selectedSubarch = selectedArch.subDefs[0];
+        mSubArchSpinner.setAdapter(new SubArchListAdapter(mContext,selectedArch.subDefs));
         updateOptionList();
       }
       
@@ -360,7 +337,7 @@ public class PocketdisassemblerActivity extends Activity {
     // For when the user changes the subarch selection
     private OnItemSelectedListener mSubArchSpinnerListener = new OnItemSelectedListener() {
     	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-    		selectedSubArchIndex = pos;
+    		selectedSubarch = selectedArch.subDefs[pos];
     		updateOptionList();
     	}
     	
@@ -471,7 +448,7 @@ public class PocketdisassemblerActivity extends Activity {
         
         
         mArchSpinner = (Spinner) findViewById(R.id.archspinner);
-        mArchSpinner.setAdapter(new ArchListAdapter(this, newArchArray));
+        mArchSpinner.setAdapter(new ArchListAdapter(this, archArray));
         mArchSpinner.setOnItemSelectedListener(mArchSpinnerListener);
         
         mSubArchSpinner = (Spinner) findViewById(R.id.subarchspinner);
