@@ -1,3 +1,8 @@
+/* (c) 2011-2012 Dr. David Alan Gilbert <dave@treblig.org>
+      This source is released under the GNU Public License V3 or later
+      a copy of which you should have received with this source.
+ */
+
 #include <jni.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -43,6 +48,7 @@ JNIEXPORT jstring JNICALL Java_org_treblig_pocketdisassembler_BinUtilsGlue_doDis
 			jstring jarchstr, jstring jsubarchstr, jstring joptionsstr, jint jflags,
 			jbyteArray jhexdata ) {
   bfd abfd;
+  bfd_target targ;
   struct disassemble_info dinfo;
   disassembler_ftype thedis;
   struct ourstringstream oss;
@@ -62,12 +68,18 @@ JNIEXPORT jstring JNICALL Java_org_treblig_pocketdisassembler_BinUtilsGlue_doDis
   /* TODO: abfd should come from bfd_openr_iovec???  with dummy funcs */
   abfd.arch_info = bfd_scan_arch(subarchstr);
   if (!abfd.arch_info) {
-    sprintf(result,"Could not find architecture '%s'", subarchstr);
+    sprintf(result,"Could not find subarchitecture '%s'", subarchstr);
     goto errexit;
   };
 
+  /* Hmm, I'm not sure this is the right idea - I mean binary says it's output only
+     and I can't see a good way of setting the endianness (the xvec hack is almost
+     certainly bad, but lots of stuff reads that rather than dinfo.endian */
   bfd_find_target("binary", &abfd);
   dinfo.arch= bfd_get_arch (&abfd);
+  targ = *(abfd.xvec);
+  targ.byteorder = (jflags & FLAG_BigEndian)?BFD_ENDIAN_BIG:BFD_ENDIAN_LITTLE;
+  abfd.xvec = &targ;
   thedis = disassembler (&abfd);
 
   if (!thedis) {
@@ -75,7 +87,7 @@ JNIEXPORT jstring JNICALL Java_org_treblig_pocketdisassembler_BinUtilsGlue_doDis
     goto errexit;
   };
 
-  snprintf(result, RESULTSIZE, "%s/%s/%s", archstr, subarchstr, optionsstr);
+  snprintf(result, RESULTSIZE, "%s/%s/%s/%d", archstr, subarchstr, optionsstr, jflags);
 
   oss.buffer=result;
   oss.towrite=0;
@@ -83,7 +95,7 @@ JNIEXPORT jstring JNICALL Java_org_treblig_pocketdisassembler_BinUtilsGlue_doDis
 
   dinfo.fprintf_func = (fprintf_ftype)ourstringprintf;
   dinfo.stream=(FILE*)&oss;
-  dinfo.endian = (jflags & FLAG_BigEndian)?BFD_ENDIAN_BIG:BFD_ENDIAN_LITTLE;
+  dinfo.endian = targ.byteorder;
   dinfo.symtab = NULL;
   dinfo.symtab_size = 0;
   dinfo.symbols=NULL;
