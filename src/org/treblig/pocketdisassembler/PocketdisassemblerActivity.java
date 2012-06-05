@@ -71,8 +71,8 @@ public class PocketdisassemblerActivity extends Activity {
     };
 
     private SubarchDef[] mipsSubarchArray = {	  
-		  new SubarchDef("mips", "mips", bigEndianOptSetDefTrue),       new SubarchDef("4400", "4400", bigEndianOptSetDefTrue),
-		  new SubarchDef("isa32r2", "isa32r2", bigEndianOptSetDefTrue), new SubarchDef("ia6r2", "mips:ia6r2", bigEndianOptSetDefTrue), 
+		  new SubarchDef("mips", "mips", bigEndianOptSetDefTrue),       new SubarchDef("4400", "mips:4400", bigEndianOptSetDefTrue),
+		  new SubarchDef("isa32r2", "mips:isa32r2", bigEndianOptSetDefTrue), new SubarchDef("isa64r2", "mips:isa64r2", bigEndianOptSetDefTrue), 
 		  new SubarchDef("octeon", "mips:octeon", bigEndianOptSetForceTrue), new SubarchDef("loongson_3a", "mips:loongson_3a", null)
     };
 
