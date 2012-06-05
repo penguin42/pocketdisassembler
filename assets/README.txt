@@ -1,4 +1,6 @@
-PocketDisassembler  - Version 0.0.2
+PocketDisassembler  - Version 0.0.3
+
+For info on where to find the latest version look at http://www.treblig.orgi/pocketdisassembler
 
 0) Copying
   Welcome to PocketDisassembler - the front end was written by
@@ -40,18 +42,17 @@ just mail me at dave@treblig.org   - see the TODO list below though.
 
 4) TODO
   Update readme
-  Add other archs/subarchs
-     Need to get subarchs to work
-       mips:ia6r2 not happy
 
   Allow cr in input
-  Icon
+
   Custom keyboard
     maybe set popupKeyboard extra ?
     Android nethack has a keyboard http://code.google.com/p/nethack-android/source/browse/trunk/nethack-3.4.3/sys/android/NetHackApp/src/com/nethackff/
        defines it's own keyboard but also has an XML description
 
 10) Building
+  Note these instructions describe a build on Ubuntu 11.10/12.04 on x86
+  builting ARM binaries.  Other combinations untried.
 
   a) To build binutils:
    You need to do a binutils build/install 1st - the jni build needs the headers
