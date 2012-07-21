@@ -2393,19 +2393,19 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case '1':
-		  iprintf (is, "0x%lx", GET_OP (insn, STYPE));
+		  iprintf (is, "0x%x", GET_OP (insn, STYPE));
 		  break;
 
 		case '<':
-		  iprintf (is, "0x%lx", GET_OP (insn, SHAMT));
+		  iprintf (is, "0x%x", GET_OP (insn, SHAMT));
 		  break;
 
 		case '\\':
-		  iprintf (is, "0x%lx", GET_OP (insn, 3BITPOS));
+		  iprintf (is, "0x%x", GET_OP (insn, 3BITPOS));
 		  break;
 
 		case '|':
-		  iprintf (is, "0x%lx", GET_OP (insn, TRAP));
+		  iprintf (is, "0x%x", GET_OP (insn, TRAP));
 		  break;
 
 		case '~':
@@ -2437,7 +2437,7 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case 'c':
-		  iprintf (is, "0x%lx", GET_OP (insn, CODE));
+		  iprintf (is, "0x%x", GET_OP (insn, CODE));
 		  break;
 
 		case 'd':
@@ -2445,12 +2445,12 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case 'h':
-		  iprintf (is, "0x%lx", GET_OP (insn, PREFX));
+		  iprintf (is, "0x%x", GET_OP (insn, PREFX));
 		  break;
 
 		case 'i':
 		case 'u':
-		  iprintf (is, "0x%lx", GET_OP (insn, IMMEDIATE));
+		  iprintf (is, "0x%x", GET_OP (insn, IMMEDIATE));
 		  break;
 
 		case 'j': /* Same as i, but sign-extended.  */
@@ -2504,7 +2504,7 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case 'q':
-		  iprintf (is, "0x%lx", GET_OP (insn, CODE2));
+		  iprintf (is, "0x%x", GET_OP (insn, CODE2));
 		  break;
 
 		case 't':
@@ -2521,11 +2521,11 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case 'B':
-		  iprintf (is, "0x%lx", GET_OP (insn, CODE10));
+		  iprintf (is, "0x%x", GET_OP (insn, CODE10));
 		  break;
 
 		case 'C':
-		  iprintf (is, "0x%lx", GET_OP (insn, COPZ));
+		  iprintf (is, "0x%x", GET_OP (insn, COPZ));
 		  break;
 
 		case 'D':
@@ -2540,7 +2540,7 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		    'T' format.  Therefore, until we gain understanding of
 		    cp2 register names, we can simply print the register
 		    numbers.  */
-		  iprintf (is, "$%ld", GET_OP (insn, RT));
+		  iprintf (is, "$%d", GET_OP (insn, RT));
 		  break;
 
 		case 'G':
@@ -2562,13 +2562,13 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		      iprintf (is, "%s", mips_cp0_names[GET_OP (insn, RS)]);
 		      break;
 		    default:
-		      iprintf (is, "$%ld", GET_OP (insn, RS));
+		      iprintf (is, "$%d", GET_OP (insn, RS));
 		      break;
 		    }
 		  break;
 
 		case 'H':
-		  iprintf (is, "%ld", GET_OP (insn, SEL));
+		  iprintf (is, "%d", GET_OP (insn, SEL));
 		  break;
 
 		case 'K':
@@ -2576,13 +2576,13 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 		  break;
 
 		case 'M':
-		  iprintf (is, "$fcc%ld", GET_OP (insn, CCC));
+		  iprintf (is, "$fcc%d", GET_OP (insn, CCC));
 		  break;
 
 		case 'N':
 		  iprintf (is,
 			   (op->pinfo & (FP_D | FP_S)) != 0
-			   ? "$fcc%ld" : "$cc%ld",
+			   ? "$fcc%d" : "$cc%d",
 			   GET_OP (insn, BCC));
 		  break;
 
@@ -2778,7 +2778,7 @@ print_insn_micromips (bfd_vma memaddr, struct disassemble_info *info)
 
 		    case 'C':
 		      immed = micromips_imm_c_map[GET_OP (insn, IMMC)];
-		      iprintf (is, "0x%lx", immed);
+		      iprintf (is, "0x%x", immed);
 		      break;
 
 		    case 'D':
