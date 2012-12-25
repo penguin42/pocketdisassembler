@@ -25,8 +25,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 
 public class PocketdisassemblerActivity extends Activity {
 	private Context mContext;
@@ -442,8 +444,8 @@ public class PocketdisassemblerActivity extends Activity {
 
 
 	/** Called when the activity is first created. */
-    @Override
     public void onCreate(Bundle savedInstanceState) {
+    	EditText mEditText;
     	super.onCreate(savedInstanceState);
         mContext = this;
         
@@ -462,7 +464,22 @@ public class PocketdisassemblerActivity extends Activity {
         mSubArchSpinner = (Spinner) findViewById(R.id.subarchspinner);
         mSubArchSpinner.setOnItemSelectedListener(mSubArchSpinnerListener);
         
+ 
+        // The following is a bodge to disable the soft keyboard in the hex input box, because
+        // it (a) takes up too much space and (b) is overkill for the characters we need
+        // a custom soft keyboard may be better.
+        // based on http://stackoverflow.com/questions/1845285/how-to-block-virtual-keyboard-while-clicking-on-edittext-in-android
+        mEditText = (EditText) findViewById(R.id.entryHex);
+        mEditText.setOnTouchListener( new OnTouchListener()
+        {
+                public boolean onTouch(View v, MotionEvent event)
+                {	
+                	((EditText)v).setInputType(0);
+                    return false;
+                }
+        }
+        );
+        
         setupHexKeys();
-               
     }
 }
