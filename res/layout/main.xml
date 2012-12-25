@@ -80,8 +80,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:autoText="false"
                     android:hint="@string/hexhint"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textNoSuggestions|textFilter"
                     android:minLines="2"
                     android:singleLine="false"
                     android:typeface="monospace" />
