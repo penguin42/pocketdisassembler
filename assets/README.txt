@@ -1,4 +1,4 @@
-PocketDisassembler  - Version 0.0.3
+PocketDisassembler  - Version 0.0.4
 
 For info on where to find the latest version look at http://www.treblig.orgi/pocketdisassembler
 
@@ -41,26 +41,34 @@ them against the manuals for those architectures - if you find a bug
 just mail me at dave@treblig.org   - see the TODO list below though.
 
 4) TODO
-  Update readme
-
   Allow cr in input
 
   Custom keyboard
     maybe set popupKeyboard extra ?
     Android nethack has a keyboard http://code.google.com/p/nethack-android/source/browse/trunk/nethack-3.4.3/sys/android/NetHackApp/src/com/nethackff/
        defines it's own keyboard but also has an XML description
+         which it reads in using new Keyboard(app, R.xml.name) (Keyboard from android.inputmethodservice.Keyboard)
+also uses a KeyboardView (from R.layout.input)
+         it's adding that in with a layout.addView(virtualKeyboard.virtualKeyboardView)
+    http://stackoverflow.com/questions/3938523/how-does-an-android-app-load-a-keyboard
 
 10) Building
-  Note these instructions describe a build on Ubuntu 11.10/12.04 on x86
+  Note these instructions describe a build on Ubuntu 12.10 on x86
   builting ARM binaries.  Other combinations untried.
 
   a) To build binutils:
    You need to do a binutils build/install 1st - the jni build needs the headers
 
-     export NDKTCPATH=/discs/more/android/dev/ndk-toolchain-r8-arm   # or whereever you put it
-     export PATH=$PATH:$NDKTCPATH/bin
-     CC=$NDKTCPATH/bin/arm-linux-androideabi-gcc CXX=$NDKTCPATH/bin/arm-linux-androideabi-g++ ../binutils-2.22/configure --prefix=$PWD/../result --host=arm-linux-androideabi --enable-targets=alpha-unknown-linux-elf,arm-linux-gnueabi,hppa-linux-elf,i686-linux-gnueabi,ia64-linux-elf,m68-linux-elf,mips-linux-elf,ppc-linux-gnueabi,s390-linux-gnueabi,sparc-linux-elf --enable-shared --disable-nls
+     or for ndk-r8b:
+       make a standalone ndk setup (only need to do it once); e.g. at the top of your ndk installation do:
+       build/tools/make-standalone-toolchain.sh --platform=android-8 --install-dir=$PWD/standalone-tc-arm-android8
+
+       export NDKTCPATH=/discs/more/android/dev/android-ndk-r8b/standalone-tc-arm-android8
+       export PATH=$PATH:$NDKTCPATH/bin
+
      # Now you want to be in pocketdisassembler/binutils/build
+     CC=$NDKTCPATH/bin/arm-linux-androideabi-gcc CXX=$NDKTCPATH/bin/arm-linux-androideabi-g++ ../binutils.gitcheckout/configure --prefix=$PWD/../result --host=arm-linux-androideabi --enable-targets=alpha-unknown-linux-elf,arm-linux-gnueabi,hppa-linux-elf,i686-linux-gnueabi,ia64-linux-elf,m68-linux-elf,mips-linux-elf,ppc-linux-gnueabi,s390-linux-gnueabi,sparc-linux-elf,aarch64-linux-gnueabi --enable-shared --disable-nls
+
      make -j 8
      make install
      # and you should find you have a set of binaries in binutils/result
@@ -73,14 +81,19 @@ the libs directory (see below).
      # Now you should have libs/armeabi/libbinutilsglue.so
 
   c) Copy the binutils binaries in
-   cp binutils/result/lib/libopcodes-2.22.so libs/armeabi/
-   cp binutils/result/lib/libbfd-2.22.so libs/armeabi/
+   cp binutils/result/lib/libopcodes-*.so libs/armeabi/
+   cp binutils/result/lib/libbfd-*.so libs/armeabi/
 
-patch to libiberty/getpagesize.c - don't define on android
-                   setproctitle - change to prctl (PR_SET_NAME, (unsigned long)name, 0, 0, 0);
-         bfd/archive.c - cast &status.st_mtime to time_t*
-         binutils/bucomm.c  - declare mkdtemp (missing decleration on android)
-         binutils/readelf.c not to use minor/major
-         ld/plugin.c not to use minor/major
+  d) Fix up BinUtilsGlue.java with the name of the libopcode and libbfd you've got
+     (I'm not quite sure how to avoid this; certainly just putting the libbfd.so and libopcodes.so
+      in doesn't work because the name of the libbfd is in the NEEDED header in libopcode.)
 
-
+11) Changes
+  For 0.0.4
+    Disabled keyboard on hex input; it was getting in the way until I figure out a full soft keyboard
+      - Not convinced paste/select is necessarily happy with it though.
+    Disabled autocompletion
+    Moved to git (as of 2012-12-26) binutils
+    Enabled aarch64 (That's ARM 64-bit)
+    Move the disassemble button between the hex entry and the number keys; I was finding that a selection
+      toast from the hex entry would get in the way of a number key.
