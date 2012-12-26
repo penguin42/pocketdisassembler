@@ -47,6 +47,10 @@ public class PocketdisassemblerActivity extends Activity {
     // ----------------------------------
     // Definitions for each architecture   TODO split this out into a separate file
     // ----------------------------------
+    private SubarchDef[] aarch64SubarchArray = {
+    		new SubarchDef("aarch64", "aarch64", null)
+    };
+    
     private SubarchDef[] alphaSubarchArray = {
     		new SubarchDef("alpha", "alpha", null),     new SubarchDef("ev6", "alpha:ev6", null)
     };
@@ -118,6 +122,7 @@ public class PocketdisassemblerActivity extends Activity {
 	};
     
     private ArchDef[] archArray = {
+    	new ArchDef("aarch64", "aarch64", aarch64SubarchArray),
     	new ArchDef("alpha", "alpha", alphaSubarchArray),
     	new ArchDef("arm", "arm", armSubarchArray),
     	new ArchDef("hppa", "hppa", hppaSubarchArray),
