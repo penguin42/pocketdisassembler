@@ -5,8 +5,8 @@ package org.treblig.pocketdisassembler;
 
 public class BinUtilsGlue {
   static {
-	  System.loadLibrary("bfd-2.22");
-	  System.loadLibrary("opcodes-2.22");
+	  System.loadLibrary("bfd-2.23.51.20121225");
+	  System.loadLibrary("opcodes-2.23.51.20121225");
 	  System.loadLibrary("binutilsglue");
   }
   
