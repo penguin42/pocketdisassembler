@@ -25,9 +25,12 @@
 #ifndef __BFD_H_SEEN__
 #define __BFD_H_SEEN__
 
+#if 0
+/* Work around PR 14243 until someone can suggest how to do it properly */
 /* PR 14072: Ensure that config.h is included first.  */
 #if !defined PACKAGE && !defined PACKAGE_VERSION
 #error config.h must be included before this header
+#endif
 #endif
 
 #ifdef __cplusplus

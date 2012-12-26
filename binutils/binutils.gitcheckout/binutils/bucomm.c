@@ -520,6 +520,11 @@ make_tempname (char *filename)
   return tmpname;
 }
 
+#ifdef __ANDROID__
+char *mkdtemp(char *path);
+#endif
+
+
 /* Return the name of a created temporary directory inside the
    directory containing FILENAME.  */
 

@@ -40,6 +40,9 @@ bfd_gas=no
 arch=
 endian=
 
+# dag - force need_libm on, some Android NDKs seem to want it - not sure why
+need_libm=yes
+
 eval `echo $targ | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/cpu=\1 vendor=\2 os=\3/'`
 
 # Check for architecture variants.  Set cpu_type and, optionally,

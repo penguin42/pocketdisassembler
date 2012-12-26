@@ -683,8 +683,8 @@ set_tv_header (struct ld_plugin_tv *tv)
   size_t i;
 
   /* Version info.  */
-  static const unsigned int major = (unsigned)(BFD_VERSION / 100000000UL);
-  static const unsigned int minor = (unsigned)(BFD_VERSION / 1000000UL) % 100;
+  static const unsigned int xmajor = (unsigned)(BFD_VERSION / 100000000UL);
+  static const unsigned int xminor = (unsigned)(BFD_VERSION / 1000000UL) % 100;
 
   for (i = 0; i < tv_header_size; i++)
     {
@@ -699,7 +699,7 @@ set_tv_header (struct ld_plugin_tv *tv)
 	  TVU(val) = LD_PLUGIN_API_VERSION;
 	  break;
 	case LDPT_GNU_LD_VERSION:
-	  TVU(val) = major * 100 + minor;
+	  TVU(val) = xmajor * 100 + xminor;
 	  break;
 	case LDPT_LINKER_OUTPUT:
 	  TVU(val) = (link_info.relocatable
